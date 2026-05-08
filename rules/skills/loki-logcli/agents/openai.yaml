@@ -1,0 +1,4 @@
+interface:
+  display_name: "Loki LogCLI"
+  short_description: "Query Luxor Loki logs with logcli"
+  default_prompt: "Use $loki-logcli to inspect Luxor Loki logs for a specific service and cluster within a bounded time window."

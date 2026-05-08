@@ -22,45 +22,30 @@ Don't ask permission. Just do it.
 
 ## Skills
 
-**Skills** 是 AI 可复用的能力，包括工作流、API 指南、最佳实践等。
+**Skills** 是 AI 可复用的能力，包括工作流、代码 review、运维操作等。
 
-**重要：遇到"怎么做 X"时，先查 skill 再查系统工具。** 搜索顺序：(1) 下方速查表 → (2) `rules/skills/INDEX.md` → (3) 系统工具。
+**重要：遇到"怎么做 X"时，先查 skill 再动手。** 搜索顺序：(1) 下方速查表 → (2) `rules/skills/INDEX.md` → (3) 系统工具。
 
 **需要执行某项任务** → 先查 `rules/skills/INDEX.md` 找到对应的 skill  
 **想添加新能力** → 参考现有 skill 格式，更新 INDEX.md
 
 ### 常用 Skill 速查（以 INDEX.md 为准）
 
-**深度调研任务** → `rules/skills/workflow_deep_research_survey.md`  
-- 初步扫描 → 分割维度 → 多 Agent 并行 → 交叉验证 → 写报告  
-- 输出：`contexts/survey_sessions/`
+**Go Code Review** → `rules/skills/go-review-swarm.md`
+- 多 agent 并行，覆盖面广，适合正式 review
 
-**调用后台 Agent / 并行 Subagent** → `rules/skills/workflow_parallel_subagents.md`  
-- 何时拆分任务、如何并行派出多个 subagent  
-- 准备调用 `run_in_background=True` 前，先把这个 skill 读一遍再执行  
-- 派出 agent 后等系统通知即可，不需要轮询
+**严苛 Code Review** → `rules/skills/linus-review.md`
+- Linus 风格，不留情面，适合上线前把关
 
-## Axioms（公理）
+**Feature 开发流水线** → `rules/skills/speckit.*.md`
+- constitution → specify → clarify → plan → tasks → implement → analyze
+- 按顺序执行，每步有 handoff 到下一步
 
-从个人经历提炼的决策原则，用于启发深度思考。分类索引、使用指南和触发词见 `rules/axioms/INDEX.md`。
+**PR 描述** → `rules/skills/pr-description.md`
 
-## Sub-agent 模型路由
+**Orphan 监控** → `rules/skills/orphan-check.md`
 
-配置文件：`~/.config/opencode/oh-my-opencode.json`
-
-常用路由速查：
-- **Gemini 3 Pro**（创意、brainstorm、非常规思路）→ `category="artistry"`
-- **Sonnet 4.6**（执行、调研、代码）→ `category="deep"` 或 `category="unspecified-high"`
-- **Haiku 4.5**（轻量任务）→ `category="quick"`
-- **Opus 4.6**（最难的逻辑/架构）→ `category="ultrabrain"`
-
-创意性工作（brainstorm、文章结构、观点碰撞）默认派一个 Gemini（artistry）在后台跑，和自己的思考并行。用户说「调 Gemini」→ artistry，说「调 Sonnet」→ deep。
-
-## Opus 工作模式
-
-如果你的模型 ID 包含 `opus`，以下规则生效：
-
-**你的 context window 很宝贵。** Opus 的核心能力是设计、质量把关和写作。调研、写脚本、关键词检索这些事交给 sub-agent。你的两个主要任务：（1）**设计**：拆分问题、设计计划、分配 sub-agent 任务；（2）**写作与质量把关**：最终文本自己写，sub-agent 结果自己验证。写代码、调研、数据处理全部 delegate，写作和质量验证绝不外包。设计任务拆分时默认考虑并行性（`run_in_background=true`）。
+**Loki 日志查询** → `rules/skills/loki-logcli/`
 
 ## Memory System（记忆系统）
 

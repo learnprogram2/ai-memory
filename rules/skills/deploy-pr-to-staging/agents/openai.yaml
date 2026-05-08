@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deploy PR To Staging"
+  short_description: "Deploy PRs into staging"
+  default_prompt: "Use $deploy-pr-to-staging to deploy a Progressive PR into the staging cluster through fluxor-staging manifests."

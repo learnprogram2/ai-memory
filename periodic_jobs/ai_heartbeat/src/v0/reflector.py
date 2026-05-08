@@ -5,10 +5,14 @@ Instructs OpenCode-Builder to perform memory garbage collection directly on the 
 """
 import os
 import sys
-from opencode_client import OpenCodeClient
 from datetime import datetime
 
-KNOWLEDGE_BASE = "/path/to/your/workspace/periodic_jobs/ai_heartbeat/docs/KNOWLEDGE_BASE.md"
+os.environ["PATH"] = "/Users/wym/.local/bin:/opt/homebrew/bin:" + os.environ.get("PATH", "")
+
+from ai_client import AIClient
+from datetime import datetime
+
+KNOWLEDGE_BASE = "/Users/wym/Desktop/code-work/context-infrastructure/periodic_jobs/ai_heartbeat/docs/KNOWLEDGE_BASE.md"
 
 PROMPT_TEMPLATE = """
 执行记忆系统的"反思与晋升"任务。
@@ -32,8 +36,7 @@ SOP: {kb_path}
 def main():
     import argparse
     parser = argparse.ArgumentParser(description='L2 Reflector Agent')
-    parser.add_argument('--model', default='<your-model-id>',
-                        choices=['<your-model-id>'],
+    parser.add_argument('--model', default='claude-sonnet-4-6',
                         help='Model ID to use')
     args = parser.parse_args()
     
@@ -41,7 +44,7 @@ def main():
     target_date = datetime.now().strftime("%Y-%m-%d")
 
     print(f"Triggering Fully Agentic Reflector using model: {model_id}...")
-    client = OpenCodeClient()
+    client = AIClient()
     
     session_id = client.create_session(f"Heartbeat L2 Reflector - {target_date}")
     if not session_id:

@@ -5,29 +5,27 @@
 ## 路由规则
 
 ### 项目与代码
-- 写代码 / 跑脚本 / 一次性项目：`adhoc_jobs/<project>/`
-- 工具脚本（邮件、语义搜索、分享报告等）：`tools/`
+- 一次性脚本 / 临时项目：`adhoc_jobs/<project>/`
+- 工具脚本（通用）：`tools/`
 - 定时任务：`periodic_jobs/`
 
 ### 知识与记录
-- 通用调研报告：`contexts/survey_sessions/`
+- 调研报告：`contexts/survey_sessions/`
 - 思考 / 复盘 / 方法论：`contexts/thought_review/`
 - 每日日志：`contexts/daily_records/`
+- 记忆积累：`contexts/memory/OBSERVATIONS.md`
 
 ### 系统与规则
-- 可复用技术方案 / Skill：`rules/skills/`
-- 核心公理（Axioms）：`rules/axioms/`
-- 记忆系统：`contexts/memory/` + `periodic_jobs/ai_heartbeat/`
+- Skills（可复用工作流）：`rules/skills/`
+- Axioms（决策公理）：`rules/axioms/`
+- 身份与偏好：`rules/SOUL.md`、`rules/USER.md`、`rules/COMMUNICATION.md`
+- 记忆系统实现：`periodic_jobs/ai_heartbeat/`
 
 ## 命名规则
-- 目录和文件名：小写 + 下划线 (snake_case)
-- 临时一次性项目：`tmp_<name>/`
-
-## Python 环境
-- 根目录 `.venv/` 为工作区级环境，用 `uv pip install` 管理依赖
-- 需要隔离时在 `adhoc_jobs/<project>/.venv/` 建独立环境
+- 目录和文件名：小写 + 连字符 (kebab-case) 或下划线 (snake_case) 均可
+- 临时项目：`tmp_<name>/`
 
 ## 快速查询
 
-<!-- 随着你的项目增长，在这里添加活跃项目的快捷路由 -->
+<!-- 随着项目增长，在这里添加活跃项目的快捷路由 -->
 <!-- 格式：- `project-name` → `adhoc_jobs/project_name/` (说明) -->
