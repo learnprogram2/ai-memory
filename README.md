@@ -30,9 +30,6 @@ context-infrastructure/
 ├── setup_guide.md               # 配置指引
 ├── .env.example                 # 环境变量模板
 │
-├── docs/
-│   └── CRONTAB.md               # 定时任务配置指南（时间线 + 示例 crontab）
-│
 ├── rules/
 │   ├── SOUL.md                  # AI 的身份和行为基调（模板）
 │   ├── USER.md                  # 你的偏好和背景（模板）
@@ -51,7 +48,6 @@ context-infrastructure/
 ├── periodic_jobs/
 │   └── ai_heartbeat/
 │       ├── docs/
-│       │   ├── PRD.md           # 记忆系统设计文档
 │       │   └── KNOWLEDGE_BASE.md # 观察和反思的 SOP
 │       └── src/v0/
 │           ├── observer.py      # 每日观察脚本（需配置 cron）
@@ -66,11 +62,51 @@ context-infrastructure/
 
 ---
 
+## 工作流
+
+```mermaid
+flowchart TD
+    subgraph auto["🔄 后台自动积累"]
+        direction TB
+        work["你正常干活\n~/Desktop/code-work/ 下所有项目"]
+        cron["cron 定时触发"]
+        obs["observer.py\n每天 8:00"]
+        ref["reflector.py\n每周一 9:00"]
+        claude_obs["claude -p\n扫描项目文件变动\n按 🔴🟡🟢 分级提炼"]
+        claude_ref["claude -p\n读取 OBSERVATIONS.md\n蒸馏高价值经验"]
+        obsmd[("contexts/memory/\nOBSERVATIONS.md\n动态记忆池")]
+        skills["rules/skills/\n你的经验知识库"]
+
+        work --> cron
+        cron -->|每天| obs
+        cron -->|每周| ref
+        obs --> claude_obs
+        claude_obs -->|追加写入| obsmd
+        ref --> claude_ref
+        claude_ref -->|晋升| skills
+        claude_ref -->|垃圾回收| obsmd
+    end
+
+    subgraph session["💬 每次 AI 对话"]
+        direction TB
+        start["Session 开始"]
+        l3["自动加载 rules/\nSOUL.md · USER.md\nCOMMUNICATION.md · skills/"]
+        answer["AI 给出个性化建议\n（基于你积累的经验）"]
+
+        start --> l3 --> answer
+    end
+
+    skills -->|写入| l3
+    obsmd -.->|按需检索| answer
+```
+
+---
+
 ## 三层结构
 
 **展示层（可以参考，不能复制）**：[`rules/axioms/`](rules/axioms/) 和 [`rules/skills/`](rules/skills/) 包含了这个系统积累一年的内容。43 条公理是从具体经历中蒸馏出来的，skills 是从真实项目中总结的。这些代表原作者的视角，对你有参考价值，但不能替代你自己积累的认知。
 
-**可复用层（直接用）**：[`rules/SOUL.md`](rules/SOUL.md)、[`rules/USER.md`](rules/USER.md) 是模板，填写即可使用。[`rules/COMMUNICATION.md`](rules/COMMUNICATION.md) 是通用的沟通风格指南，大多数人可以直接采用。[`periodic_jobs/ai_heartbeat/`](periodic_jobs/ai_heartbeat/) 提供了记忆系统的实现代码。需要配置定时任务时，参考 [`docs/CRONTAB.md`](docs/CRONTAB.md)。
+**可复用层（直接用）**：[`rules/SOUL.md`](rules/SOUL.md)、[`rules/USER.md`](rules/USER.md) 是模板，填写即可使用。[`rules/COMMUNICATION.md`](rules/COMMUNICATION.md) 是通用的沟通风格指南，大多数人可以直接采用。[`periodic_jobs/ai_heartbeat/`](periodic_jobs/ai_heartbeat/) 提供了记忆系统的实现代码，配合 cron 使用。
 
 **不可复用层**：公理的具体内容、skill 背后的具体经验。理解它们的结构和形成方式，然后从你自己的数据中积累。
 
